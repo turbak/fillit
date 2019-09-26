@@ -6,17 +6,26 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:35 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/23 15:04:12 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/25 17:56:51 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-int main()
+int		main()
 {
-	int fd;
+	int		fd;
+	mapl	*maps;
+	fillit	*list;
 
 	fd = open("valid_sample.fillit", O_RDONLY);
-	write_grid(read_grid(fd));
+	list = read_grid(fd);
+	maps = malloc(sizeof(mapl));
+	maps->map_size = ft_sqrt(starting_size(list) * 4);
+	maps->map = create_map(maps->map_size);
+	maps = solver(list, maps, list, maps);
+	write_grid(list, maps);
+	close(fd);
+
 	return (0);
 }

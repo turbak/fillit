@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/24 22:48:02 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/26 15:58:30 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,9 +150,9 @@ void	change_chars(fillit *list)
 
 void	fill_chars(fillit *list)
 {
-	char c;
 	int i;
 	fillit *head;
+	char c;
 
 	head = list;
 	c = 'A';
@@ -204,7 +204,7 @@ char	**remove_dots(char **tet, int height, int width)
 	return (tmp);
 }
 
-void	write_grid(fillit *list)
+void	write_grid(fillit *list, mapl *maps)
 {
 	int i;
 
@@ -216,9 +216,15 @@ void	write_grid(fillit *list)
 			ft_putendl(list->tet[i]);
 			i++;
 		}
+		i = 0;
 		printf("\nHeight: [%i]\n", list->height);
 		printf("Width: [%i]\n", list->width);
 		list = list->next;
 		ft_putchar('\n');
+	}
+	while (maps->map[i])
+	{
+		ft_putendl(maps->map[i]);
+		i++;
 	}
 }
