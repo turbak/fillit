@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/26 15:58:30 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/26 20:42:53 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ fillit *read_grid(int fd)
 		{
 			CHECKRETURN(!(validate(list->grid, list)), NULL);
 			list->next = init_grid();
+			list->next->prev = list;
 			list = list->next;
 			i = 0;
 		}
@@ -164,6 +165,7 @@ void	fill_chars(fillit *list)
 			ft_strset(list->tet[i], '#', c);
 			i++;
 		}
+		list->c = c;
 		c++;
 		list = list->next;
 	}
@@ -208,23 +210,19 @@ void	write_grid(fillit *list, mapl *maps)
 {
 	int i;
 
-	while (list)
+	i = 0;
+	while (list->tet[i])
 	{
-		i = 0;
-		while (list->tet[i])
-		{
-			ft_putendl(list->tet[i]);
-			i++;
-		}
-		i = 0;
-		printf("\nHeight: [%i]\n", list->height);
-		printf("Width: [%i]\n", list->width);
-		list = list->next;
-		ft_putchar('\n');
+		printf("%s\n", list->tet[i]);
+		i++;
 	}
+	printf("\nHeight [%d]\n", list->height);
+	printf("Width [%d]\n\n", list->width);
+	i = 0;
 	while (maps->map[i])
 	{
 		ft_putendl(maps->map[i]);
 		i++;
 	}
+	ft_putchar('\n');
 }

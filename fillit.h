@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/25 17:43:11 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/26 20:43:04 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,19 @@ typedef struct		g_list
 	char			**tet;
 	int				height;
 	int				width;
+	char			c;
 	struct	g_list	*next;
+	struct	g_list	*prev;
 }					fillit;
 
 typedef struct		map_l
 {
 	char			**map;
 	int				map_size;
-
+	int				pos_i;
+	int				pos_j;
 	struct	map_l	*next;
+	struct	map_l	*prev;
 }					mapl;
 
 int					validate_piece(fillit *list);
