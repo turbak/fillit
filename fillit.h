@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/26 20:43:04 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:31:27 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct		map_l
 
 int					validate_piece(fillit *list);
 int 				validate(char *str, fillit *list);
-void				write_grid(fillit *list, mapl *maps);
+void				write_grid(mapl *maps);
 fillit				*read_grid(int fd);
 fillit				*init_grid(void);
 void				change_chars(fillit *list);

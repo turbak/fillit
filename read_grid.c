@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/27 15:23:28 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:27:02 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,37 @@ fillit *read_grid(int fd)
 	return (head);
 }
 
+int		count_ne(char *str)
+{
+	int i;
+	int count;
+	int fill;
+	
+	i = 0;
+	fill = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '#')
+		{
+			fill++;
+			if (str[i + 1] == '#')
+				count++;
+			if (str[i - 1] == '#')
+				count++;
+			if (str[i - 5] == '#')
+				count++;
+			if (str[i + 5] == '#')
+				count++;
+		}
+		i++;
+		if (fill == 4)
+			if (count < 6)
+				return (0);
+	}
+	return (1);
+}
+
 int		validate(char *str, fillit *list)
 {
 	int row;
@@ -77,7 +108,7 @@ int		validate(char *str, fillit *list)
 			fill++;
 		symb++;
 	}
-	if (col != 4 || dot + fill != symb - 4 || dot != 12 || fill != 4 || !validate_piece(list))
+	if (col != 4 || dot + fill != symb - 4 || dot != 12 || fill != 4 || !validate_piece(list) || !(count_ne(str)))
 		return (0);
 	return (1);
 }
@@ -206,7 +237,7 @@ char	**remove_dots(char **tet, int height, int width)
 	return (tmp);
 }
 
-void	write_grid(fillit *list, mapl *maps)
+void	write_grid(mapl *maps)
 {
 	int i;
 

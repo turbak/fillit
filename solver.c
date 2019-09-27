@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/27 15:27:58 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 18:29:56 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ mapl 	*increase(mapl *maps)
 	maps->prev = NULL;
 	maps->map = create_map(size);
 	maps->map_size = size;
+	maps->pos_i = 0;
+	maps->pos_j = 0;
 	return (maps);
 }
 
