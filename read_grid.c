@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/26 20:42:53 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/27 15:23:28 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ fillit *read_grid(int fd)
 	return (head);
 }
 
-int	validate(char *str, fillit *list)
+int		validate(char *str, fillit *list)
 {
 	int row;
 	int symb;
@@ -82,7 +82,7 @@ int	validate(char *str, fillit *list)
 	return (1);
 }
 
-int	validate_piece(fillit *list)
+int		validate_piece(fillit *list)
 {
 	int i;
 	int height;
@@ -211,18 +211,9 @@ void	write_grid(fillit *list, mapl *maps)
 	int i;
 
 	i = 0;
-	while (list->tet[i])
-	{
-		printf("%s\n", list->tet[i]);
-		i++;
-	}
-	printf("\nHeight [%d]\n", list->height);
-	printf("Width [%d]\n\n", list->width);
-	i = 0;
 	while (maps->map[i])
 	{
 		ft_putendl(maps->map[i]);
 		i++;
 	}
-	ft_putchar('\n');
 }

@@ -47,6 +47,6 @@ char				**create_map(int map_size);
 int					starting_size(fillit *list);
 mapl				*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head);
 int					valid_tet(char **map, char c);
-int					try_tet(fillit *list, mapl *maps, int m, int n);
+int					try_tet(fillit *list, mapl *maps, int i, int j);
 
 #endif
