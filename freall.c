@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 19:48:56 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/29 20:55:57 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/29 22:24:35 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	free_map_back(mapl *map)
 
 	start = map;
 	i = -1;
-	while (map->map[++i])
+	while (++i < map->map_size)
 		ft_strdel(&map->map[i]);
 	map = (map->prev ? map->prev : map);
 	while (map->prev)
@@ -98,8 +98,9 @@ void	free_map_next(mapl *map)
 {
 	mapl *start;
 	mapl *buf;
-
-	start = map->prev;
+	
+	start = map;
+	map = map->next;
 	while (map)
 	{
 		buf = map->next;

@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/29 20:49:14 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/29 22:28:20 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ fillit *read_grid(int fd)
 			list = list->next;
 			i = 0;
 		}
+		free(line);
 	}
 	if (!(validate(list->grid, list)))
 		CHECKRETURN(free_error(head), 0);
@@ -155,6 +156,7 @@ void	change_chars(fillit *list)
 	fillit *head;
 	int i;
 	char *tmp;
+	char **temp;
 
 	head = list;
 	while (list)
@@ -180,7 +182,12 @@ void	change_chars(fillit *list)
 			}
 		}
 		list->grid = tmp;
-		list->tet = remove_dots(list->tet, list->height, list->width);
+		temp = remove_dots(list->tet, list->height, list->width);
+		i = -1;
+		while (++i < list->height)
+			ft_strdel(&list->tet[i]);
+		free(list->tet);
+		list->tet = temp;
 		list = list->next;
 	}
 	fill_chars(head);
@@ -249,7 +256,7 @@ void	write_grid(mapl *maps, fillit *list)
 	int i;
 
 	i = 0;
-	while (maps->map[i])
+	while (i < maps->map_size)
 	{
 		ft_putendl(maps->map[i]);
 		i++;
