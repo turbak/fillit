@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/27 18:29:56 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/29 21:01:37 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ int		try_tet(fillit *list, mapl *maps, int i, int j)
 		n++;
 	}
 	maps->next = malloc(sizeof(mapl));
+	maps->next->next = NULL;
 	maps->next->map = maps->map;
 	maps->next->prev = maps;
 	maps->next->map_size = maps->map_size;
@@ -147,7 +148,8 @@ mapl	*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head)
 				x++;
 			}
 			map->prev->pos_j++;
-			return (solver(list->prev, map->prev, list_head, maps_head));
+			free_map_next(map);
+			return (solver(list->prev, map, list_head, maps_head));
 		}
 		else
 		{

@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/27 18:31:27 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/29 20:47:58 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct		g_list
 
 typedef struct		map_l
 {
-	char			**map;
+	char **map;
 	int				map_size;
 	int				pos_i;
 	int				pos_j;
@@ -37,7 +37,7 @@ typedef struct		map_l
 
 int					validate_piece(fillit *list);
 int 				validate(char *str, fillit *list);
-void				write_grid(mapl *maps);
+void				write_grid(mapl *maps, fillit *list);
 fillit				*read_grid(int fd);
 fillit				*init_grid(void);
 void				change_chars(fillit *list);
@@ -48,5 +48,10 @@ int					starting_size(fillit *list);
 mapl				*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head);
 int					valid_tet(char **map, char c);
 int					try_tet(fillit *list, mapl *maps, int i, int j);
+int					free_error(fillit *list);
+void				free_tet_back(fillit *list);
+void				free_map_back(mapl *map);
+void				mapcpy(mapl *maps);
+void				free_map_next(mapl *map);
 
 #endif

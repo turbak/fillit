@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/27 18:27:02 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/29 20:49:14 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,34 @@ fillit *read_grid(int fd)
 	char *line;
 	int i;
 	fillit *head;
+	int lin;
 
 	i = 0;
 	list = init_grid();
 	head = list;
 	while (get_next_line(fd, &line) > 0)
 	{
-		while(*line)
+		lin = 0;
+		while(line[lin])
 		{
-			list->grid[i] = *line;
-			line++;
+			list->grid[i] = line[lin];
+			lin++;
 			i++;
 		}
 		if (i != 20)
 			list->grid[i++] = '\n';
 		else
 		{
-			CHECKRETURN(!(validate(list->grid, list)), NULL);
+			if (!(validate(list->grid, list)))
+				CHECKRETURN(free_error(head), 0);
 			list->next = init_grid();
 			list->next->prev = list;
 			list = list->next;
 			i = 0;
 		}
 	}
-	CHECKRETURN(!(validate(list->grid, list)), NULL);
+	if (!(validate(list->grid, list)))
+		CHECKRETURN(free_error(head), 0);
 	change_chars(head);
 	return (head);
 }
@@ -150,6 +154,7 @@ void	change_chars(fillit *list)
 {
 	fillit *head;
 	int i;
+	char *tmp;
 
 	head = list;
 	while (list)
@@ -162,6 +167,7 @@ void	change_chars(fillit *list)
 			i++;
 		}
 		i = 0;
+		tmp = list->grid;
 		while (*list->grid)
 		{
 			if (!(ft_strncmp(list->grid, "....\n", 4)))	
@@ -173,6 +179,7 @@ void	change_chars(fillit *list)
 				i++;
 			}
 		}
+		list->grid = tmp;
 		list->tet = remove_dots(list->tet, list->height, list->width);
 		list = list->next;
 	}
@@ -237,7 +244,7 @@ char	**remove_dots(char **tet, int height, int width)
 	return (tmp);
 }
 
-void	write_grid(mapl *maps)
+void	write_grid(mapl *maps, fillit *list)
 {
 	int i;
 
@@ -247,4 +254,6 @@ void	write_grid(mapl *maps)
 		ft_putendl(maps->map[i]);
 		i++;
 	}
+	free_map_back(maps);
+	free_tet_back(list);
 }
