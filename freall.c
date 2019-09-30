@@ -6,16 +6,16 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 19:48:56 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 13:19:39 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 15:04:24 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-static void	free_tet_next(fillit *start)
+static void	free_tet_next(t_fillit *start)
 {
 	int i;
-	fillit *buf;
+	t_fillit *buf;
 	
 	while (start)
 	{
@@ -30,10 +30,10 @@ static void	free_tet_next(fillit *start)
 	start = NULL;
 }
 
-void	free_tet_back(fillit *list)
+void	free_tet_back(t_fillit *list)
 {
-	fillit	*start;
-	fillit	*buf;
+	t_fillit	*start;
+	t_fillit	*buf;
 	int		i;
 
 	start = list;
@@ -52,9 +52,9 @@ void	free_tet_back(fillit *list)
 	free_tet_next(list);
 }
 
-int		free_error(fillit *list)
+int		free_error(t_fillit *list)
 {
-	fillit *sled;
+	t_fillit *sled;
 
 	{
 		sled = list->next;
@@ -66,10 +66,10 @@ int		free_error(fillit *list)
 	return (1);
 }
 
-void	free_map_back(mapl *map)
+void	free_map_back(t_mapl *map)
 {
-	mapl	*start;
-	mapl	*buf;
+	t_mapl	*start;
+	t_mapl	*buf;
 	int		i;
 
 	start = map;
@@ -93,10 +93,10 @@ void	free_map_back(mapl *map)
 	map = NULL;
 }
 
-void	free_map_next(mapl *map)
+void	free_map_next(t_mapl *map)
 {
-	mapl *start;
-	mapl *buf;
+	t_mapl *start;
+	t_mapl *buf;
 	
 	start = map;
 	map = map->next;

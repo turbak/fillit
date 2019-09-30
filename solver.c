@@ -6,17 +6,17 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 12:34:58 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 15:04:40 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-mapl 	*increase(mapl *maps)
+t_mapl 	*increase(t_mapl *maps)
 {
 	int size;
-	mapl *head;
-	mapl *sled;
+	t_mapl *head;
+	t_mapl *sled;
 	int i;
 	
 	head = maps;
@@ -25,14 +25,14 @@ mapl 	*increase(mapl *maps)
 	{
 		i = 0;
 		sled = maps->next;
-		while (maps->map[i])
+		while (i < maps->map_size)
 		{
 			ft_strdel(&maps->map[i]);
 			i++;
 		}
 		maps = sled;
 	}
-	maps = malloc(sizeof(mapl));
+	maps = malloc(sizeof(t_mapl));
 	maps = head;
 	maps->prev = NULL;
 	maps->map = create_map(size);
@@ -42,7 +42,7 @@ mapl 	*increase(mapl *maps)
 	return (maps);
 }
 
-int		try_tet(fillit *list, mapl *maps, int i, int j)
+int		try_tet(t_fillit *list, t_mapl *maps, int i, int j)
 {
 	int n;
 	int m;
@@ -73,7 +73,7 @@ int		try_tet(fillit *list, mapl *maps, int i, int j)
 		}
 		n++;
 	}
-	maps->next = malloc(sizeof(mapl));
+	maps->next = malloc(sizeof(t_mapl));
 	maps->next->next = NULL;
 	maps->next->map = maps->map;
 	maps->next->prev = maps;
@@ -99,10 +99,10 @@ char	**create_map(int map_size)
 	return (map);
 }
 
-int		starting_size(fillit *list)
+int		starting_size(t_fillit *list)
 {
 	int	counter;
-	fillit *head;
+	t_fillit *head;
 	
 	head = list;
 	counter = 0;
@@ -115,7 +115,7 @@ int		starting_size(fillit *list)
 	return (counter);
 }
 
-mapl	*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head)
+t_mapl	*solver(t_fillit *list, t_mapl *map, t_fillit *list_head, t_mapl *maps_head)
 {
 	int		i;
 	int		j;

@@ -6,19 +6,19 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 13:12:50 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 15:04:25 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
 
-fillit *read_grid(int fd)
+t_fillit *read_grid(int fd)
 {
-	fillit *list;
+	t_fillit *list;
 	char *line;
 	int i;
-	fillit *head;
+	t_fillit *head;
 	char *tmp;
 
 	i = 0;
@@ -33,6 +33,7 @@ fillit *read_grid(int fd)
 			line++;
 			i++;
 		}
+		ft_strdel(&tmp);
 		if (i < 20)
 			list->grid[i++] = '\n';
 		else
@@ -82,7 +83,7 @@ int		count_ne(char *str)
 	return (1);
 }
 
-int		validate(char *str, fillit *list)
+int		validate(char *str, t_fillit *list)
 {
 	int row;
 	int symb;
@@ -117,7 +118,7 @@ int		validate(char *str, fillit *list)
 	return (1);
 }
 
-int		validate_piece(fillit *list)
+int		validate_piece(t_fillit *list)
 {
 	int i;
 	int height;
@@ -150,9 +151,9 @@ int		validate_piece(fillit *list)
 	return (1);
 }
 
-void	change_chars(fillit *list)
+void	change_chars(t_fillit *list)
 {
-	fillit *head;
+	t_fillit *head;
 	int i;
 	char *tmp;
 	char **temp;
@@ -193,10 +194,10 @@ void	change_chars(fillit *list)
 	list = head;
 }
 
-void	fill_chars(fillit *list)
+void	fill_chars(t_fillit *list)
 {
 	int i;
-	fillit *head;
+	t_fillit *head;
 	char c;
 
 	head = list;
@@ -250,7 +251,7 @@ char	**remove_dots(char **tet, int height, int width)
 	return (tmp);
 }
 
-void	write_grid(mapl *maps, fillit *list)
+void	write_grid(t_mapl *maps, t_fillit *list)
 {
 	int i;
 
