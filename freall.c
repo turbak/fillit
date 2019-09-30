@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 19:48:56 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:04:24 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 15:08:20 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	free_tet_next(t_fillit *start)
 	{
 		buf = start->next;
 		i = -1;
-		while (i++ < start->height)
+		while (++i < start->height)
 			ft_strdel(&start->tet[i]);
 		ft_strdel(&start->grid);
 		free(start);

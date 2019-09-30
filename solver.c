@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:04:40 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 15:18:03 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_mapl	*solver(t_fillit *list, t_mapl *map, t_fillit *list_head, t_mapl *maps_he
 			}
 			i++;
 		}
-		if (map->prev)
+		if (map->prev && (i < map->map_size && j < map->map_size))
 		{
 			x = 0;
 			while (x < map->map_size)
