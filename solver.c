@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/29 22:16:42 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 12:34:58 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ mapl	*solver(fillit *list, mapl *map, fillit *list_head, mapl *maps_head)
 		if (map->prev)
 		{
 			x = 0;
-			while (map->prev->map[x])
+			while (x < map->map_size)
 			{
 				ft_strset(map->prev->map[x], list->prev->c, '.');
 				x++;

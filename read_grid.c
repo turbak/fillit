@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/29 22:28:20 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 13:12:50 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@ fillit *read_grid(int fd)
 	char *line;
 	int i;
 	fillit *head;
-	int lin;
+	char *tmp;
 
 	i = 0;
 	list = init_grid();
 	head = list;
 	while (get_next_line(fd, &line) > 0)
 	{
-		lin = 0;
-		while(line[lin])
+		tmp = line;
+		while(*line)
 		{
-			list->grid[i] = line[lin];
-			lin++;
+			list->grid[i] = *line;
+			line++;
 			i++;
 		}
-		if (i != 20)
+		if (i < 20)
 			list->grid[i++] = '\n';
 		else
 		{
@@ -44,10 +44,9 @@ fillit *read_grid(int fd)
 			list = list->next;
 			i = 0;
 		}
-		free(line);
 	}
 	if (!(validate(list->grid, list)))
-		CHECKRETURN(free_error(head), 0);
+				CHECKRETURN(free_error(head), 0);
 	change_chars(head);
 	return (head);
 }
@@ -205,7 +204,7 @@ void	fill_chars(fillit *list)
 	while (list)
 	{
 		i = 0;
-		while (list->tet[i])
+		while (i < list->height)
 		{
 			ft_strset(list->tet[i], '#', c);
 			i++;
