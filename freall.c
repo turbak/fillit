@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 19:48:56 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:08:20 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 18:25:56 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	free_tet_next(t_fillit *start)
 		i = -1;
 		while (++i < start->height)
 			ft_strdel(&start->tet[i]);
+		free(start->tet);
 		ft_strdel(&start->grid);
 		free(start);
 		start = buf;
@@ -44,6 +45,7 @@ void	free_tet_back(t_fillit *list)
 		i = -1;
 		while (++i < list->height)
 			ft_strdel(&list->tet[i]);
+		free(list->tet);
 		ft_strdel(&list->grid);
 		free(list);
 		list = buf;
@@ -56,6 +58,7 @@ int		free_error(t_fillit *list)
 {
 	t_fillit *sled;
 
+	while (list)
 	{
 		sled = list->next;
 		ft_strdel(&list->grid);
@@ -73,9 +76,13 @@ void	free_map_back(t_mapl *map)
 	int		i;
 
 	start = map;
-	i = -1;
-	while (++i < map->map_size)
-		ft_strdel(&map->map[i]);
+	if (map->map)
+	{
+		i = -1;
+		while (++i < map->map_size)
+			ft_strdel(&map->map[i]);
+		free(map->map);
+	}
 	map = (map->prev ? map->prev : map);
 	while (map->prev)
 	{
@@ -102,9 +109,9 @@ void	free_map_next(t_mapl *map)
 	map = map->next;
 	while (map)
 	{
-		buf = map->next;
-		free(map);
-		map = buf;
+		buf = map;
+		map = map->next;
+		free(buf);
 	}
 	map = start;
 	map->next = NULL;

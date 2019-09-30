@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:35 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:02:36 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 18:45:23 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,16 @@ int		main(int ac, char **av)
 	}
 	maps = malloc(sizeof(t_mapl));
 	maps->map_size = ft_sqrt(starting_size(list) * 4);
+	maps->prev = NULL;
+	maps->next = NULL;
 	maps->pos_i = 0;
 	maps->pos_j = 0;
 	maps->map = create_map(maps->map_size);
-	maps = solver(list, maps, list, maps);
+	if (!solver(list, maps))
+	{
+		increase(maps);
+		solver(list, maps);
+	}
 	write_grid(maps, list);
 	close(fd);
 	return (0);

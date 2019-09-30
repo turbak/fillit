@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:04:25 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 16:56:57 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,23 @@ t_fillit *read_grid(int fd)
 			line++;
 			i++;
 		}
-		ft_strdel(&tmp);
 		if (i < 20)
 			list->grid[i++] = '\n';
 		else
 		{
 			if (!(validate(list->grid, list)))
+			{
+				ft_strdel(&tmp);
 				CHECKRETURN(free_error(head), 0);
+			}
 			list->next = init_grid();
 			list->next->prev = list;
 			list = list->next;
 			i = 0;
 		}
+		ft_strdel(&tmp);
 	}
+	ft_strdel(&tmp);
 	if (!(validate(list->grid, list)))
 				CHECKRETURN(free_error(head), 0);
 	change_chars(head);
@@ -162,7 +166,7 @@ void	change_chars(t_fillit *list)
 	while (list)
 	{
 		i = 0;
-		list->tet = (char**)ft_memalloc(sizeof(char*) * list->height + 1);
+		list->tet = (char**)malloc(sizeof(char*) * list->height);
 		while (i < list->height)
 		{
 			list->tet[i] = (char*)ft_memalloc(sizeof(char) * 5);
@@ -225,7 +229,7 @@ char	**remove_dots(char **tet, int height, int width)
 	char **tmp;
 
 	i = 0;
-	tmp = (char **)ft_memalloc(sizeof(char*) * height + 1);
+	tmp = (char **)malloc(sizeof(char*) * height);
 	k = 0;
 	j = 0;
 	while (i < height)

@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:18:03 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 19:00:48 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,21 @@ t_mapl 	*increase(t_mapl *maps)
 	size = maps->map_size + 1;
 	while (maps)
 	{
-		i = 0;
+		i = -1;
 		sled = maps->next;
-		while (i < maps->map_size)
+		if (maps->map)
 		{
-			ft_strdel(&maps->map[i]);
-			i++;
+			while (++i < maps->map_size)
+				ft_strdel(&maps->map[i]);
+			free(maps->map);
 		}
+		free(maps);
 		maps = sled;
 	}
 	maps = malloc(sizeof(t_mapl));
 	maps = head;
 	maps->prev = NULL;
+	maps->next = NULL;
 	maps->map = create_map(size);
 	maps->map_size = size;
 	maps->pos_i = 0;
@@ -89,7 +92,7 @@ char	**create_map(int map_size)
 	char **map;
 
 	i = 0;
-	map = (char**)ft_memalloc(sizeof(char *) * map_size + 1);
+	map = (char**)malloc(sizeof(char *) * map_size);
 	while (i < map_size)
 	{
 		map[i] = (char*)ft_memalloc(sizeof(char) * map_size + 1);
@@ -115,7 +118,7 @@ int		starting_size(t_fillit *list)
 	return (counter);
 }
 
-t_mapl	*solver(t_fillit *list, t_mapl *map, t_fillit *list_head, t_mapl *maps_head)
+int	solver(t_fillit *list, t_mapl *map)
 {
 	int		i;
 	int		j;
@@ -133,30 +136,24 @@ t_mapl	*solver(t_fillit *list, t_mapl *map, t_fillit *list_head, t_mapl *maps_he
 				{
 					map->pos_i = i;
 					map->pos_j = j;
-					return (solver(list->next, map->next, list_head, maps_head));
+					return (solver(list->next, map->next));
 				}
 				j++;
 			}
 			i++;
 		}
-		if (map->prev && (i < map->map_size && j < map->map_size))
+		if (map->prev)
 		{
-			x = 0;
-			while (x < map->map_size)
-			{
+			x = -1;
+			while (++x < map->map_size)
 				ft_strset(map->prev->map[x], list->prev->c, '.');
-				x++;
-			}
 			map->prev->pos_j++;
 			map = map->prev;
 			free_map_next(map);
-			return (solver(list->prev, map, list_head, maps_head));
+			return (solver(list->prev, map));
 		}
 		else
-		{
-			map = increase(maps_head);
-			return (solver(list_head, map, list_head, maps_head));
-		}	
+			return (0);
 	}
-	return (map);
+	return (1);
 }

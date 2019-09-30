@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 15:04:23 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/09/30 18:45:46 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void				fill_chars(t_fillit *list);
 char				**remove_dots(char **tet, int height, int width);
 char				**create_map(int map_size);
 int					starting_size(t_fillit *list);
-t_mapl				*solver(t_fillit *list, t_mapl *map, t_fillit *list_head, t_mapl *maps_head);
+int				solver(t_fillit *list, t_mapl *map);
 int					valid_tet(char **map, char c);
 int					try_tet(t_fillit *list, t_mapl *maps, int i, int j);
 int					free_error(t_fillit *list);
@@ -53,5 +53,6 @@ void				free_tet_back(t_fillit *list);
 void				free_map_back(t_mapl *map);
 void				mapcpy(t_mapl *maps);
 void				free_map_next(t_mapl *map);
+t_mapl				*increase(t_mapl *maps);
 
 #endif
