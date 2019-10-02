@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 19:48:56 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/02 18:24:16 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/02 21:21:12 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		free_error(t_fillit *list)
 	{
 		sled = list;
 		list = list->next;
-		ft_strdel(&list->grid);
+		ft_strdel(&LG);
 		free(sled);
 	}
 	list = NULL;

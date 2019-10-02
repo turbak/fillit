@@ -6,12 +6,13 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/02 18:21:17 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/02 21:19:48 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FILLIT_H
 # define FILLIT_H
+# define LG list->grid
 # include "./libft/libft.h"
 
 typedef struct		s_glist

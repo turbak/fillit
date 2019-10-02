@@ -6,11 +6,25 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:35 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/02 18:06:44 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/02 20:14:39 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+void	write_grid(char **maps, t_fillit *list)
+{
+	int i;
+
+	i = 0;
+	while (i < list->map_size)
+	{
+		ft_putendl(maps[i]);
+		i++;
+	}
+	free_map(maps, list->map_size);
+	free_tet_next(list);
+}
 
 int		main(int ac, char **av)
 {
