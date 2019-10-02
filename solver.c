@@ -6,90 +6,51 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/24 22:46:40 by cauranus          #+#    #+#             */
-/*   Updated: 2019/09/30 19:00:48 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/02 17:03:09 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-t_mapl 	*increase(t_mapl *maps)
+char	**increase(char **maps, t_fillit *list)
 {
-	int size;
-	t_mapl *head;
-	t_mapl *sled;
-	int i;
-	
-	head = maps;
-	size = maps->map_size + 1;
-	while (maps)
-	{
-		i = -1;
-		sled = maps->next;
-		if (maps->map)
-		{
-			while (++i < maps->map_size)
-				ft_strdel(&maps->map[i]);
-			free(maps->map);
-		}
-		free(maps);
-		maps = sled;
-	}
-	maps = malloc(sizeof(t_mapl));
-	maps = head;
-	maps->prev = NULL;
-	maps->next = NULL;
-	maps->map = create_map(size);
-	maps->map_size = size;
-	maps->pos_i = 0;
-	maps->pos_j = 0;
-	return (maps);
+	free_map(maps, list->map_size);
+	list->map_size++;
+	return (create_map(list->map_size));
 }
 
-int		try_tet(t_fillit *list, t_mapl *maps, int i, int j)
+int		try_tet(t_fillit *list, char **maps, int i, int j)
 {
 	int n;
 	int m;
 
-	n = 0;
-	while (n < list->height)
+	n = -1;
+	while (++n < list->height)
 	{
-		if (n + i >= maps->map_size)
-			return (0);
-		m = 0;
-		while (m < list->width)
-		{
-			if (m + j >= maps->map_size || (list->tet[n][m] != '.' && maps->map[n + i][m + j] != '.'))
-				return(0);
-			m++;
-		}
-		n++;
+		m = -1;
+		while (++m < list->width)
+			CHECKRETURN((list->tet[n][m] != '.'
+			&& maps[n + i][m + j] != '.'), 0);
 	}
-	n = 0;
-	while (n < list->height)
+	n = -1;
+	while (++n < list->height)
 	{
-		m = 0;
-		while (m < list->width)
+		m = -1;
+		while (++m < list->width)
 		{
-			if ((list->tet[n][m] != '.' && maps->map[n + i][m + j] == '.'))
-				maps->map[n + i][m + j] = list->tet[n][m];
-			m++;
+			if ((list->tet[n][m] != '.' && maps[n + i][m + j] == '.'))
+				maps[n + i][m + j] = list->tet[n][m];
 		}
-		n++;
 	}
-	maps->next = malloc(sizeof(t_mapl));
-	maps->next->next = NULL;
-	maps->next->map = maps->map;
-	maps->next->prev = maps;
-	maps->next->map_size = maps->map_size;
-	maps->next->pos_i = 0;
-	maps->next->pos_j = 0;
+	if (list->next)
+		list->next->map_size = list->map_size;
 	return (1);
 }
 
 char	**create_map(int map_size)
 {
-	int i;
-	char **map;
+	int		i;
+	char	**map;
 
 	i = 0;
 	map = (char**)malloc(sizeof(char *) * map_size);
@@ -104,9 +65,9 @@ char	**create_map(int map_size)
 
 int		starting_size(t_fillit *list)
 {
-	int	counter;
-	t_fillit *head;
-	
+	int			counter;
+	t_fillit	*head;
+
 	head = list;
 	counter = 0;
 	while (list)
@@ -118,42 +79,31 @@ int		starting_size(t_fillit *list)
 	return (counter);
 }
 
-int	solver(t_fillit *list, t_mapl *map)
+int		solver(t_fillit *list, char **map)
 {
-	int		i;
-	int		j;
-	int 	x;
+	int	i;
+	int	j;
+	int	x;
 
-	if (list)
+	CHECKRETURN((!list), 1);
+	i = -1;
+	while (++i <= list->map_size - list->height)
 	{
-		i = map->pos_i;
-		while (i < map->map_size)
+		j = -1;
+		while (++j <= list->map_size - list->width)
 		{
-			j = (i <= map->pos_i ? (map->pos_j) : 0);
-			while (j < map->map_size)
+			if (try_tet(list, map, i, j))
 			{
-				if (try_tet(list, map, i, j))
+				if (solver(list->next, map))
+					return (1);
+				else
 				{
-					map->pos_i = i;
-					map->pos_j = j;
-					return (solver(list->next, map->next));
+					x = -1;
+					while (++x < list->map_size)
+						ft_strset(map[x], list->c, '.');
 				}
-				j++;
 			}
-			i++;
 		}
-		if (map->prev)
-		{
-			x = -1;
-			while (++x < map->map_size)
-				ft_strset(map->prev->map[x], list->prev->c, '.');
-			map->prev->pos_j++;
-			map = map->prev;
-			free_map_next(map);
-			return (solver(list->prev, map));
-		}
-		else
-			return (0);
 	}
-	return (1);
+	return (0);
 }
