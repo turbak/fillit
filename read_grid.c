@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:45:22 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/02 21:23:01 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/04 22:51:57 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,25 @@ t_fillit	*read_grid(int fd)
 	i = 0;
 	list = init_grid();
 	head = list;
-	while (get_next_line(fd, &line) > 0)
+	while (get_next_line(fd, &line) > 0 && (tmp = line))
 	{
-		tmp = line;
 		while (*line)
-		{
-			LG[i] = *line;
-			line++;
-			i++;
-		}
-		if (i < 20)
+			LG[i++] = *(line++);
+		if (i < 20 + ft_strfdel(&tmp))
 			LG[i++] = '\n';
 		else
 		{
-			if (!(validate(LG, list)))
-			{
-				ft_strdel(&tmp);
-				CHECKRETURN(free_error(head), 0);
-			}
+			CHECKRETURN(!(validate(LG, list)), free_error(head));
 			list->next = init_grid();
 			list = list->next;
 			i = 0;
 		}
-		ft_strdel(&tmp);
 	}
-	ft_strdel(&tmp);
-	if (!(validate(LG, list)))
-		CHECKRETURN(free_error(head), 0);
-	change_chars(head);
-	return (head);
+	CHECKRETURN(!(validate(LG, list)), free_error(head));
+	return (head + change_chars(head));
 }
 
-int		count_ne(char *str)
+int			count_ne(char *str)
 {
 	int i;
 	int count;
@@ -83,43 +70,36 @@ int		count_ne(char *str)
 	return (1);
 }
 
-int		validate(char *str, t_fillit *list)
+int			validate(char *str, t_fillit *list)
 {
-	int row;
-	int symb;
-	int dot;
-	int fill;
-	int col;
+	t_val val;
 
-	col = 0;
-	symb = 0;
-	dot = 0;
-	fill = 0;
-	row = 0;
-	while (str[symb])
+	val.col = 0;
+	val.s = -1;
+	val.dot = 0;
+	val.fill = 0;
+	val.row = 0;
+	while (str[++val.s])
 	{
-		if (str[symb] != '\n')
-			row++;
-		else if (str[symb] == '\n')
+		if (str[val.s] != '\n')
+			val.row++;
+		else if (str[val.s] == '\n')
 		{
-			if (row != 4)
+			if (val.row != 4)
 				return (0);
-			row = 0;
-			col++;
+			val.row = 0;
+			val.col++;
 		}
-		if (str[symb] == '.')
-			dot++;
-		else if (str[symb] == '#')
-			fill++;
-		symb++;
+		if (str[val.s] == '.')
+			val.dot++;
+		else if (str[val.s] == '#')
+			val.fill++;
 	}
-	if (col != 4 || dot + fill != symb - 4 || dot != 12 ||
-	fill != 4 || !validate_piece(list) || !(count_ne(str)))
-		return (0);
-	return (1);
+	return (!(val.col != 4 || val.dot + val.fill != val.s - 4 || val.dot != 12
+	|| val.fill != 4 || !validate_piece(list) || !(count_ne(str))));
 }
 
-int		validate_piece(t_fillit *list)
+int			validate_piece(t_fillit *list)
 {
 	int i;
 	int height;
@@ -148,7 +128,7 @@ int		validate_piece(t_fillit *list)
 	return (1);
 }
 
-void	fill_chars(t_fillit *list)
+int			fill_chars(t_fillit *list)
 {
 	int			i;
 	t_fillit	*head;
@@ -169,4 +149,5 @@ void	fill_chars(t_fillit *list)
 		list = list->next;
 	}
 	list = head;
+	return (0);
 }

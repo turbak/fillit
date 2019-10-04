@@ -6,7 +6,7 @@
 /*   By: cauranus <cauranus@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/20 14:33:50 by cauranus          #+#    #+#             */
-/*   Updated: 2019/10/02 21:19:48 by cauranus         ###   ########.fr       */
+/*   Updated: 2019/10/04 17:35:48 by cauranus         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,34 @@ typedef struct		s_glist
 	struct s_glist	*next;
 }					t_fillit;
 
+typedef struct		s_val
+{
+	int				row;
+	int				s;
+	int				dot;
+	int				fill;
+	int				col;
+}					t_val;
+
 int					validate_piece(t_fillit *list);
 int					validate(char *str, t_fillit *list);
 void				write_grid(char **maps, t_fillit *list);
 t_fillit			*read_grid(int fd);
 t_fillit			*init_grid(void);
-void				change_chars(t_fillit *list);
-void				fill_chars(t_fillit *list);
+int					change_chars(t_fillit *list);
+int					fill_chars(t_fillit *list);
 char				**remove_dots(char **tet, int height, int width);
 char				**create_map(int map_size);
 int					starting_size(t_fillit *list);
 int					solver(t_fillit *list, char **map);
 int					valid_tet(char **map, char c);
 int					try_tet(t_fillit *list, char **maps, int i, int j);
-int					free_error(t_fillit *list);
+void				*free_error(t_fillit *list);
 void				free_tet_back(t_fillit *list);
 void				write_test(char **maps, t_fillit *list);
 void				free_map(char **map, int size);
 char				**increase(char **maps, t_fillit *list);
 void				free_tet_next(t_fillit *start);
+int					ft_strfdel(char **as);
 
 #endif
